@@ -1,5 +1,5 @@
 import { createLogger, format, transports } from "winston";
-const { combine, timestamp, json, colorize } = format;
+const { combine, timestamp, json, colorize } = format; //object destructuring
 
 const consoleLogFormat = format.combine(
   format.colorize(),

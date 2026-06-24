@@ -1,13 +1,36 @@
 import express from "express";
 import dotenv, { configDotenv } from "dotenv"
+import logger from './logger.js';
+import morgan from 'morgan';
 const app = express();
 configDotenv()
 const PORT = process.env.PORT || 4000;
 
 app.use(express.json()); // acceppting datafrom from frontend in jsonformat
+const morganFormat = ':method :url :status :response-time ms';  
+//                    {method =GET/PUT, url= "api/car/3", status=200,201, response-time : complieng time}
 
 let catData = [];
 let nextId = 1;
+//middel ware
+app.use(morgan(morganFormat, {
+  stream: {
+    write: (message) => {
+      const logObject = {
+        method: message.split(' ')[0],
+        url: message.split(' ')[1],
+        status: message.split(' ')[2],
+        responseTime: message.split(' ')[3],
+        
+      };
+      logger.info(JSON.stringify(logObject));
+    }
+  }
+}));
+
+// const toslple = "kavin k playing Foodball";
+// const words = toslple.split(' ')[0];
+// console.log(words)
 
 //add new cars
 app.post("/car", (req, res) => {
