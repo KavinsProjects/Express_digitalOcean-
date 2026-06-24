@@ -11,6 +11,7 @@ let nextId = 1;
 
 //add new cars
 app.post("/car", (req, res) => {
+  //console.log("POST");
   const { name, model, price } = req.body; // we add the data from postman think it is frontend
   const newCar = { id: nextId++, name, model, price };
   catData.push(newCar);
@@ -19,11 +20,13 @@ app.post("/car", (req, res) => {
 
 //get all cars
 app.get("/car", (req, res) => {
+  //console.log("GET");
   res.status(200).send(catData);
 });
 
 //get with id
 app.get("/car/:id", (req, res) => {
+//console.log("GET")
   const cars = catData.find((c) => c.id === parseInt(req.params.id));
   if (!cars) {
     return res.status(404).send("Car Not found");
@@ -35,6 +38,7 @@ app.get("/car/:id", (req, res) => {
 //update
 
 app.put("/car/:id", (req, res) => {
+ // console.log("PUT")
   const cars = catData.find((c)=> c.id === parseInt(req.params.id));
   if (!cars) {
     return res.status(404).send("Car Not found");
@@ -48,6 +52,7 @@ app.put("/car/:id", (req, res) => {
 
 //delete
 app.delete("/car/:id", (req,res)=>{
+  //console.log("DELETE")
     const index = catData.findIndex(t=> t.id === parseInt(req.params.id));
     if(index === -1){
         return res.status(404).send("car not found")
